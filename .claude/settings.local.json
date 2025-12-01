@@ -8,7 +8,9 @@
       "Bash(export PATH=\"$JAVA_HOME/bin:$PATH\")",
       "Bash(curl:*)",
       "Bash(./gradlew.bat:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(git reset:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []
