@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.pluralcraft'
+version = project.mod_version
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://maven.parchmentmc.org' }
+}
+
+dependencies {
+    // Common Minecraft dependencies (provided by loaders)
+    // No direct Minecraft dependency here - loaders will provide it
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}

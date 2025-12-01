@@ -1,17 +1,17 @@
 modLoader="javafml"
 loaderVersion="[47,)"
 license="MIT"
-issueTrackerURL="https://github.com/yourusername/PluralCraft/issues"
+issueTrackerURL="https://github.com/MystiaTech/pluralcraft/issues"
 
 [[mods]]
 modId="pluralcraft"
 version="${file.jarVersion}"
 displayName="PluralCraft"
 updateJSONURL=""
-displayURL="https://github.com/yourusername/PluralCraft"
+displayURL="https://github.com/MystiaTech/pluralcraft"
 logoFile=""
-credits="Created for DID systems to express themselves in Minecraft"
-authors="PluralCraft Team"
+credits="Created for DID systems to express themselves in Minecraft. Built with Claude Code."
+authors="MystiaTech & Claude (Anthropic)"
 description='''
 A Minecraft mod designed to allow DID systems to properly express themselves in-game.
 Switch between alters, customize profiles, and show your authentic self!

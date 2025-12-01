@@ -1,0 +1,16 @@
+// Multi-Loader Settings for PluralCraft
+// This enables building for Forge, Fabric, and NeoForge from one codebase!
+
+rootProject.name = 'PluralCraft'
+
+// Include all loader-specific modules
+include 'common'
+include 'forge'
+include 'fabric'
+include 'neoforge'
+
+// Set display names
+project(':common').name = 'PluralCraft-Common'
+project(':forge').name = 'PluralCraft-Forge'
+project(':fabric').name = 'PluralCraft-Fabric'
+project(':neoforge').name = 'PluralCraft-NeoForge'

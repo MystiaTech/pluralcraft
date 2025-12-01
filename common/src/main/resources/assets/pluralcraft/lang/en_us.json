@@ -1,0 +1,27 @@
+{
+  "key.categories.pluralcraft": "PluralCraft",
+  "key.pluralcraft.open_gui": "Open Alter Management",
+  "key.pluralcraft.quick_switch": "Quick Switch Alter",
+  "key.pluralcraft.open_emoji_picker": "Open Emoji Picker",
+
+  "item.pluralcraft.system_id": "System ID Card",
+
+  "gui.pluralcraft.alter_management": "Alter Management",
+  "gui.pluralcraft.system_name": "System Name",
+  "gui.pluralcraft.current_alter": "Current Alter",
+  "gui.pluralcraft.add_alter": "Add New Alter",
+  "gui.pluralcraft.switch_alter": "Switch Alter",
+  "gui.pluralcraft.no_alters": "No alters yet! Add one to get started!",
+  "gui.pluralcraft.emoji_picker": "Emoji Picker",
+
+  "communication.pluralcraft.verbal": "Verbal",
+  "communication.pluralcraft.nonverbal_emotes": "Nonverbal (Emojis)",
+  "communication.pluralcraft.text_only": "Text Only",
+  "communication.pluralcraft.selective_mute": "Selectively Mute",
+  "communication.pluralcraft.mixed": "Mixed",
+
+  "command.pluralcraft.system.set": "System name set to: %s",
+  "command.pluralcraft.alter.added": "Added alter: %s",
+  "command.pluralcraft.alter.switched": "Switched to alter: %s",
+  "command.pluralcraft.alter.list": "Alters in %s:"
+}

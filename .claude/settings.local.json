@@ -10,7 +10,9 @@
       "Bash(./gradlew.bat:*)",
       "Bash(chmod:*)",
       "Bash(git reset:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(cat:*)",
+      "Bash(test:*)"
     ],
     "deny": [],
     "ask": []

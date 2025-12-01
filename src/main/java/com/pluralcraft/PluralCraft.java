@@ -1,5 +1,7 @@
 package com.pluralcraft;
 
+import com.pluralcraft.integration.ModIntegration;
+import com.pluralcraft.items.ModItems;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -27,6 +29,9 @@ public class PluralCraft {
     public PluralCraft() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        // Register items
+        ModItems.register(modEventBus);
+
         // Common setup (runs on both sides)
         modEventBus.addListener(this::commonSetup);
 
@@ -43,11 +48,20 @@ public class PluralCraft {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         LOGGER.info("PluralCraft common setup - works on both client and server!");
-        // This is where we'll register our data structures, items, etc.
+
+        // Initialize mod integrations (Wildfire's Gender Mod, etc.)
+        event.enqueueWork(() -> {
+            ModIntegration.initializeIntegrations();
+        });
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
         LOGGER.info("PluralCraft client setup - GUI and visual stuff!");
         // This is where we'll set up keybindings, GUI, skin handling, etc.
+
+        event.enqueueWork(() -> {
+            // Client-specific integration setup will go here
+            LOGGER.info("Client-side mod integrations ready!");
+        });
     }
 }

@@ -1,76 +1,111 @@
-# PluralCraft 💜
+# PluralCraft 💫
 
-A Minecraft mod designed to allow DID (Dissociative Identity Disorder) systems to properly express themselves in-game!
+**A Minecraft mod for plural systems and DID/OSDD communities to express themselves authentically in-game!**
 
-## Features
+[![Minecraft Version](https://img.shields.io/badge/Minecraft-1.20.1-brightgreen.svg)](https://minecraft.net/)
+[![Forge](https://img.shields.io/badge/Forge-47.3.0-orange.svg)](https://files.minecraftforge.net/)
+[![License](https://img.shields.io/badge/License-LGPL--3.0-blue.svg)](LICENSE)
 
-- 🌟 **System Profiles**: Create a system with a custom name
-- 👥 **Alter Management**: Add multiple alters with individual profiles
-- ✨ **Easy Switching**: Switch between alters without relogging
-- 💬 **Custom Chat Format**: Show system name, alter name, and pronouns in chat
-- 🎨 **Custom Skins**: Each alter can have their own skin (optional)
-- 📖 **ID/Passport Item**: View alter information in a handy item
-- 🔗 **PronounDB Support**: Optionally use PronounDB for pronouns
-- ⚙️ **No Cheats Required**: Works in both singleplayer and multiplayer without needing cheats enabled
+## 🌟 Features
 
-## Alter Profile Information
+### System & Alter Management
+- Create your system with a custom name
+- Add multiple alters with unique profiles (name, age, pronouns, bio)
+- Communication methods (Verbal, Nonverbal/Emojis, Text Only, Selectively Mute, Mixed)
+- Custom body appearance per alter (breast size, hip width, male bulge, body curves)
+- Switch between alters without relogging
+- Edit existing alters by clicking them in the list
+- System ID Card item - Right-click to view system info
 
-Each alter can have:
-- Name
-- Age
-- Pronouns (custom or from PronounDB)
-- Bio/Description
-- Custom skin (optional)
+### Body Customization
+- Proper drag sliders with 1% precision (0-100%)
+- Player model preview - See your character while customizing
+- Four customization options: Breast size, Hip width, Male bulge, Body curves
+- **Wildfire's Gender Mod compatible!** Use both mods together
+- Settings save per alter and persist across sessions
 
-## Installation
+### Skin Customization (NEW in v0.1.7!)
+- **Per-Alter Custom Skins!** - Each alter can have their own unique skin
+- Skin URL support (load from NameMC, Minecraft Heads, etc.)
+- File upload support (coming soon - placeholder implemented)
+- Reset to default skin functionality
+- Player model preview in customization screen
+- Skins automatically apply when switching alters
+- Settings persist across sessions
 
-1. Download from [CurseForge](https://curseforge.com) or [Modrinth](https://modrinth.com)
-2. Install Forge 1.20.1
-3. Place the mod JAR in your `mods` folder
-4. Launch Minecraft!
+### Emoji Communication
+- Emoji Picker GUI (Press E) - Perfect for nonverbal/mute alters!
+- 100+ emojis in 6 categories
+- Click any emoji to send to chat
 
-## Usage
+### Keybindings
+- **P** - Open Alter Management
+- **E** - Open Emoji Picker
+- **Unbound** - Quick Switch
 
-*(Coming soon - keybindings and GUI instructions)*
+## 📥 Installation
 
-## Compatibility
+1. Download latest `.jar` from [Releases](https://github.com/MystiaTech/pluralcraft/releases)
+2. Place in `.minecraft/mods` folder
+3. Launch Minecraft with Forge 1.20.1
+4. Press **P** in-game!
 
-- **Minecraft Version**: 1.20.1
-- **Mod Loaders**: Forge (NeoForge and Fabric support coming soon!)
-- **Side Support**: Works client-only, server-only, or both!
-- **Multiplayer**: Fully supported
+## 🎮 Quick Start
 
-## Building from Source
+1. Press **P** → "Add New Alter"
+2. Enter name, age, pronouns
+3. (Optional) Click "Customize Body" to set body appearance
+4. (Optional) Click "Customize Skin" to set a unique skin URL
+5. Done!
 
-```bash
-# Clone the repository
-git clone https://github.com/MystiaTech/pluralcraft.git
-cd PluralCraft
+## 📝 Commands
 
-# Build the mod
-./gradlew build
+All commands work **without cheats**!
 
-# The mod JAR will be in build/libs/
+```
+/pluralcraft system setname <name>
+/pluralcraft alter add <name> <age> <pronouns>
+/pluralcraft alter switch <name>
+/pluralcraft alter list
 ```
 
-## License
+## 🔧 For Developers
 
-MIT License with distribution restrictions - see [LICENSE](LICENSE) for details.
+See [docs/MOD_INTEGRATION.md](docs/MOD_INTEGRATION.md) for mod integration API!
 
-**TL;DR**:
-- ✅ Free to use and modify
-- ✅ Can be included in modpacks
-- ✅ Official downloads only from CurseForge/Modrinth
-- ⚠️ Give credit when hosting modpacks externally
+### Building
+```bash
+./gradlew build  # Output in build/libs/
+```
 
-## Contributing
+## 🤝 Compatibility
 
-Contributions are welcome! Please open an issue or pull request on GitHub.
+- **Wildfire's Gender Mod**: Fully compatible! Use both together
+- **Mods Optimizer**: Full support
 
-## Support
+## 🐛 Known Issues
 
-If you encounter any issues, please report them on our [GitHub Issues](https://github.com/MystiaTech/pluralcraft.git/issues) page.
+- Body settings save but don't render visually yet (3D rendering coming soon)
+- Skin settings save but don't render visually yet (3D skin rendering coming soon)
+- Wildfire GUI button provides keybind info instead of direct opening (API integration in progress)
+
+See [CHANGELOG.md](CHANGELOG.md) for full version history.
+
+## 📜 License
+
+LGPL-3.0 - See [LICENSE](LICENSE)
+Distribution restricted to CurseForge and Modrinth
+
+## 💖 Credits
+
+- MystiaTech & Claude (Anthropic)
+- Inspired by the plural/DID/OSDD community
+
+## 📧 Support
+
+- [GitHub Issues](https://github.com/MystiaTech/pluralcraft/issues)
+- [GitHub Discussions](https://github.com/MystiaTech/pluralcraft/discussions)
 
 ---
 
-Made with 💜 for the plural community
+**Enjoy expressing your authentic selves in Minecraft! 💫**
