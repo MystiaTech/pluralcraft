@@ -15,6 +15,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fabric port
 - NeoForge port
 
+## [0.1.8] - 2024-12-02
+### Fixed
+- **Body Customization Reset** - Disabling custom body now properly resets model to defaults
+  - Values reset to 0.3/0.5/0/0.5 when unchecking "Enable Custom Body"
+  - Applies both when clicking Done and when closing screen
+- **UI Layout Improvements** - Fixed overlapping elements in Body Customization screen
+  - Increased spacing between sliders (30→35px)
+  - Increased padding after checkbox (10→15px)
+  - Repositioned info text to avoid overlap
+- **System ID Card Placement** - Item no longer places on blocks
+  - Added useOn() override to prevent accidental placement
+  - Now only works when right-clicking in air
+  - No more accidentally using it on logs/trees!
+
 ## [0.1.7] - 2024-12-01
 ### Added
 - **Skin Customization System!** - Each alter can now have their own custom skin
