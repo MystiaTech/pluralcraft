@@ -4,6 +4,7 @@ import com.pluralcraft.PluralCraft;
 import com.pluralcraft.client.gui.AlterManagementScreen;
 import com.pluralcraft.client.gui.EmojiPickerScreen;
 import com.pluralcraft.client.skin.SkinManager;
+import com.pluralcraft.compat.MCACompat;
 import com.pluralcraft.compat.WildfireCompat;
 import com.pluralcraft.data.AlterProfile;
 import com.pluralcraft.data.SystemDataManager;
@@ -60,6 +61,15 @@ public class KeyInputHandler {
                                         net.minecraft.network.chat.Component.literal("✓ Applied body settings to Wildfire!"));
                                 }
                             }
+
+                            // Apply body to MCA if loaded!
+                            if (MCACompat.isMCALoaded()) {
+                                boolean success = MCACompat.applyBodyToMCA(mc.player, newAlter.getBodyCustomization());
+                                if (success) {
+                                    mc.player.sendSystemMessage(
+                                        net.minecraft.network.chat.Component.literal("✓ Applied body settings to MCA!"));
+                                }
+                            }
                         }
                     } else {
                         mc.player.sendSystemMessage(
@@ -91,6 +101,11 @@ public class KeyInputHandler {
                             // Apply body to Wildfire if loaded!
                             if (WildfireCompat.isWildfireLoaded()) {
                                 WildfireCompat.applyBodyToWildfire(mc.player, currentAlter.getBodyCustomization());
+                            }
+
+                            // Apply body to MCA if loaded!
+                            if (MCACompat.isMCALoaded()) {
+                                MCACompat.applyBodyToMCA(mc.player, currentAlter.getBodyCustomization());
                             }
                         }
                     }

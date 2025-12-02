@@ -11,9 +11,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cosmetic Armor integration
 - Client-side 3D skin rendering (actual visual application of custom skins)
 - Wildfire's Gender Mod GUI integration (open their screen from our button)
-- MCA Reborn integration (body settings sync)
 - Fabric port
 - NeoForge port
+
+## [0.2.2] - 2024-12-02
+### Added
+- **🔥 MCA REBORN INTEGRATION!** - Now supports both Wildfire AND MCA!
+  - Created MCACompat module with reflection-based integration
+  - Attempts to modify MCA's PlayerData class when switching alters
+  - Works alongside Wildfire integration - both can be used together!
+  - Graceful fallback if MCA not loaded or incompatible version
+
+### Technical
+- New MCACompat class with `applyBodyToMCA()` method
+- Uses Java reflection to find MCA's PlayerData/VillagerData classes
+- Tries multiple common class names and field names for compatibility
+- Comprehensive error handling and logging
+
+### Notes
+- MCA Reborn primarily customizes VILLAGERS, not the player character
+- Integration is experimental - MCA may not expose player body customization
+- If MCA doesn't have PlayerData class, integration gracefully fails
+- Both Wildfire and MCA integrations work in parallel!
 
 ## [0.2.1] - 2024-12-02
 ### Added
