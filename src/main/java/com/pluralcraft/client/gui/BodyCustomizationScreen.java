@@ -197,10 +197,16 @@ public class BodyCustomizationScreen extends Screen {
             }
         }
 
-        // Draw note about rendering
-        graphics.drawCenteredString(this.font,
-                "Note: Visual changes coming in next update!",
-                this.width / 2, this.height - 60, 0xAAAA00);
+        // Draw integration status
+        String statusMessage = "";
+        if (com.pluralcraft.compat.WildfireCompat.isWildfireLoaded()) {
+            statusMessage = "✓ Wildfire integration active - visual changes apply on alter switch!";
+        } else if (com.pluralcraft.compat.MCACompat.isMCALoaded()) {
+            statusMessage = "✓ MCA integration active - changes apply on alter switch!";
+        } else {
+            statusMessage = "Install Wildfire's Gender Mod for visual body customization";
+        }
+        graphics.drawCenteredString(this.font, statusMessage, this.width / 2, this.height - 60, 0x00FF00);
 
         super.render(graphics, mouseX, mouseY, partialTick);
     }

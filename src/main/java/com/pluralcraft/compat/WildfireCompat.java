@@ -129,30 +129,58 @@ public class WildfireCompat {
         }
 
         try {
+            System.out.println("[PluralCraft] Attempting Wildfire integration...");
+
             // Try to get the GenderPlayer instance for this player
             // Wildfire might use an attachment or capability system
             // Common patterns: GenderPlayer.getPlayer(player) or player.getCapability()
 
             // Try static method approach first
-            Method getPlayerMethod = GENDER_PLAYER_CLASS.getMethod("getPlayer", Player.class);
-            Object genderPlayer = getPlayerMethod.invoke(null, player);
+            try {
+                Method getPlayerMethod = GENDER_PLAYER_CLASS.getMethod("getPlayer", Player.class);
+                Object genderPlayer = getPlayerMethod.invoke(null, player);
 
-            if (genderPlayer != null) {
-                // Now set the breast size field!
-                // Wildfire uses a float for breast size (0.0 to 1.0 usually)
-                Field breastField = GENDER_PLAYER_CLASS.getDeclaredField("breastSize");
-                breastField.setAccessible(true);
-                breastField.setFloat(genderPlayer, body.isCustomBodyEnabled() ? body.getBreastSize() : 0.0f);
+                if (genderPlayer != null) {
+                    System.out.println("[PluralCraft] Found GenderPlayer instance!");
 
-                // Sync to client/server if needed
-                Method syncMethod = GENDER_PLAYER_CLASS.getMethod("syncGender");
-                syncMethod.invoke(genderPlayer);
+                    // Now set the breast size field!
+                    // Wildfire uses a float for breast size (0.0 to 1.0 usually)
+                    Field breastField = GENDER_PLAYER_CLASS.getDeclaredField("breastSize");
+                    breastField.setAccessible(true);
+                    float newValue = body.isCustomBodyEnabled() ? body.getBreastSize() : 0.0f;
+                    breastField.setFloat(genderPlayer, newValue);
+                    System.out.println("[PluralCraft] Set breastSize to: " + newValue);
 
-                return true;
+                    // Sync to client/server if needed
+                    try {
+                        Method syncMethod = GENDER_PLAYER_CLASS.getMethod("syncGender");
+                        syncMethod.invoke(genderPlayer);
+                        System.out.println("[PluralCraft] Called syncGender()");
+                    } catch (NoSuchMethodException e) {
+                        System.out.println("[PluralCraft] syncGender() method not found, trying updatePlayer()");
+                        try {
+                            Method updateMethod = GENDER_PLAYER_CLASS.getMethod("updatePlayer");
+                            updateMethod.invoke(genderPlayer);
+                        } catch (NoSuchMethodException e2) {
+                            System.out.println("[PluralCraft] No sync method found - changes may not apply");
+                        }
+                    }
+
+                    return true;
+                } else {
+                    System.err.println("[PluralCraft] GenderPlayer is null!");
+                }
+            } catch (NoSuchMethodException e) {
+                System.err.println("[PluralCraft] getPlayer() method not found on GenderPlayer class");
+                System.err.println("[PluralCraft] Available methods: ");
+                for (Method m : GENDER_PLAYER_CLASS.getMethods()) {
+                    System.err.println("  - " + m.getName());
+                }
             }
         } catch (Exception e) {
             // Log error but don't crash
             System.err.println("[PluralCraft] Failed to apply body to Wildfire: " + e.getMessage());
+            e.printStackTrace();
         }
 
         return false;
