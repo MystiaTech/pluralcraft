@@ -9,11 +9,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Chat formatting with system/alter names
 - PronounDB integration
 - Cosmetic Armor integration
-- Client-side 3D model rendering for body customization (models morph based on settings)
 - Client-side 3D skin rendering (actual visual application of custom skins)
 - Wildfire's Gender Mod GUI integration (open their screen from our button)
 - Fabric port
 - NeoForge port
+
+## [0.2.0] - 2024-12-02
+### Added
+- **🔥 BODY RENDERING SYSTEM!** - Per-alter body customization is now VISUALLY RENDERED!
+  - PlayerBodyRenderer handles real-time model modification
+  - Breast size actually shows on your character
+  - Hip width modifies leg positioning
+  - Body curves affect overall body shape
+  - Male bulge modifies leg geometry
+  - **OVERRIDES other mods (MCA, Wildfire) when custom body is enabled!**
+  - When custom body disabled, resets to vanilla (removes other mod effects)
+
+### Technical
+- Created PlayerBodyRenderer with RenderPlayerEvent.Pre hook
+- Modifies PlayerModel geometry in real-time based on current alter
+- Scale and position modifications for body parts (body, arms, legs)
+- Full override capability to fix conflicts with MCA Reborn and Wildfire
+- Works seamlessly with alter switching (Quick Switch keybind)
+
+### Notes
+- This is a MAJOR feature release! Body customization is now fully functional!
+- Per-alter bodies mean different alters can have different body types
+- System can have feminine character, but alter can override to masculine (and vice versa)
+- Fixes the issue where MCA/Wildfire settings couldn't be overridden per-alter
 
 ## [0.1.9] - 2024-12-02
 ### Fixed
