@@ -8,9 +8,14 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: write  # Required for creating releases
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Only run build job on branch pushes and PRs, not tags
+    if: startsWith(github.ref, 'refs/heads/') || startsWith(github.ref, 'refs/pull/')
 
     steps:
     - name: Checkout repository

@@ -59,11 +59,12 @@ public class BodyCustomization {
      */
     public CompoundTag saveToNBT() {
         CompoundTag tag = new CompoundTag();
-        tag.putFloat("breastSize", breastSize);
-        tag.putFloat("hipWidth", hipWidth);
-        tag.putFloat("maleBulge", maleBulge);
-        tag.putFloat("bodyCurves", bodyCurves);
-        tag.putBoolean("customBodyEnabled", customBodyEnabled);
+        // Namespace our tags to avoid conflicts with Wildfire's Gender Mod!
+        tag.putFloat("pluralcraft_breastSize", breastSize);
+        tag.putFloat("pluralcraft_hipWidth", hipWidth);
+        tag.putFloat("pluralcraft_maleBulge", maleBulge);
+        tag.putFloat("pluralcraft_bodyCurves", bodyCurves);
+        tag.putBoolean("pluralcraft_customBodyEnabled", customBodyEnabled);
         return tag;
     }
 
@@ -71,11 +72,21 @@ public class BodyCustomization {
      * Load from NBT
      */
     public void loadFromNBT(CompoundTag tag) {
-        this.breastSize = tag.getFloat("breastSize");
-        this.hipWidth = tag.getFloat("hipWidth");
-        this.maleBulge = tag.getFloat("maleBulge");
-        this.bodyCurves = tag.getFloat("bodyCurves");
-        this.customBodyEnabled = tag.getBoolean("customBodyEnabled");
+        // Try new namespaced tags first, fallback to old tags for backwards compatibility
+        if (tag.contains("pluralcraft_breastSize")) {
+            this.breastSize = tag.getFloat("pluralcraft_breastSize");
+            this.hipWidth = tag.getFloat("pluralcraft_hipWidth");
+            this.maleBulge = tag.getFloat("pluralcraft_maleBulge");
+            this.bodyCurves = tag.getFloat("pluralcraft_bodyCurves");
+            this.customBodyEnabled = tag.getBoolean("pluralcraft_customBodyEnabled");
+        } else {
+            // Backwards compatibility with old saves
+            this.breastSize = tag.getFloat("breastSize");
+            this.hipWidth = tag.getFloat("hipWidth");
+            this.maleBulge = tag.getFloat("maleBulge");
+            this.bodyCurves = tag.getFloat("bodyCurves");
+            this.customBodyEnabled = tag.getBoolean("customBodyEnabled");
+        }
     }
 
     /**

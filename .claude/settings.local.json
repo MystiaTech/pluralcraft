@@ -25,7 +25,8 @@
       "Bash(git checkout:*)",
       "Bash(dos2unix:*)",
       "Bash(./gradlew:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

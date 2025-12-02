@@ -15,6 +15,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fabric port
 - NeoForge port
 
+## [0.1.9] - 2024-12-02
+### Fixed
+- **CRITICAL: Wildfire Mod Conflict** - Namespaced NBT tags to prevent conflicts
+  - Body customization data now uses `pluralcraft_` prefix
+  - Prevents Wildfire's Gender Mod from reading our data
+  - Fixes issue where disabling custom body didn't remove visual changes
+  - Includes backwards compatibility for old saves
+  - No more double breasts when using both mods!
+
+### Technical
+- NBT tags now properly namespaced: `pluralcraft_breastSize`, etc.
+- Automatic migration from old tag names to new namespaced tags
+- GitHub Actions workflow now has proper permissions for releases
+
 ## [0.1.8] - 2024-12-02
 ### Fixed
 - **Body Customization Reset** - Disabling custom body now properly resets model to defaults
