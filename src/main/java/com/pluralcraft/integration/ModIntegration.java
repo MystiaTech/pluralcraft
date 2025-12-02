@@ -23,20 +23,25 @@ public class ModIntegration {
      * Check which supported mods are installed and register integrations
      */
     public static void initializeIntegrations() {
-        // Check for Wildfire's Gender Mod
-        if (ModList.get().isLoaded("wildfire_gender")) {
-            PluralCraft.LOGGER.info("Wildfire's Gender Mod detected! Enabling integration.");
-            // We'll implement this in a separate class later
-            // INTEGRATIONS.put("wildfire_gender", new WildfireGenderIntegration());
+        PluralCraft.LOGGER.info("Checking for mod integrations...");
+
+        // Check for Wildfire's Gender Mod using our compat class
+        if (com.pluralcraft.compat.WildfireCompat.isWildfireLoaded()) {
+            PluralCraft.LOGGER.info("✓ Wildfire's Gender Mod integration available!");
+        }
+
+        // Check for MCA Reborn using our compat class
+        if (com.pluralcraft.compat.MCACompat.isMCALoaded()) {
+            PluralCraft.LOGGER.info("✓ MCA Reborn integration available!");
         }
 
         // Check for Cosmetic Armor
         if (ModList.get().isLoaded("cosmeticarmor")) {
-            PluralCraft.LOGGER.info("Cosmetic Armor detected! Enabling integration.");
-            // INTEGRATIONS.put("cosmeticarmor", new CosmeticArmorIntegration());
+            PluralCraft.LOGGER.info("Cosmetic Armor detected! (No integration yet)");
         }
 
-        PluralCraft.LOGGER.info("Loaded {} mod integrations", INTEGRATIONS.size());
+        // Note: INTEGRATIONS map is for the old system, we now use WildfireCompat/MCACompat directly
+        PluralCraft.LOGGER.info("Mod integration check complete!");
     }
 
     /**
