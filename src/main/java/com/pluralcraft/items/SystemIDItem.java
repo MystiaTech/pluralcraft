@@ -6,11 +6,13 @@ import com.pluralcraft.data.SystemProfile;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,6 +25,13 @@ public class SystemIDItem extends Item {
 
     public SystemIDItem(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        // Prevent using the item on blocks (like logs, trees, etc.)
+        // Instead, only allow using it in the air
+        return InteractionResult.PASS;
     }
 
     @Override

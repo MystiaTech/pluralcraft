@@ -12,7 +12,20 @@
       "Bash(git reset:*)",
       "Bash(git add:*)",
       "Bash(cat:*)",
-      "Bash(test:*)"
+      "Bash(test:*)",
+      "Bash(xargs:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nFEAT: Complete v0.1.7 - All features fully implemented!\n\n- ✅ Quick Switch keybind (K) - Cycle through alters with skin application\n- ✅ System Name Editor - Edit system name via button\n- ✅ Current Alter Details - Click current alter to edit\n- ✅ Edit Details Screen - Full implementation with validation\n- ✅ Communication Method Screen - Select from 5 methods\n- ✅ System ID Card GUI - Visual card design\n- ✅ Skin file upload - JFileChooser implementation\n- ✅ Fixed all TODOs and placeholders\n\nUpdated CHANGELOG.md and README.md to reflect all features.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git tag:*)",
+      "Bash(git push)",
+      "Bash(git push:*)",
+      "Bash(jar -tf:*)",
+      "Bash(gh run list:*)",
+      "Bash(echo:*)",
+      "Bash(./gradlew clean:*)",
+      "Bash(git checkout:*)",
+      "Bash(dos2unix:*)",
+      "Bash(./gradlew:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

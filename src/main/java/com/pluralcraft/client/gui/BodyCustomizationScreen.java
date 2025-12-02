@@ -53,7 +53,7 @@ public class BodyCustomizationScreen extends Screen {
         // Left side: Sliders
         int leftX = 30;
         int startY = 60;
-        int spacing = 30;
+        int spacing = 35; // Increased from 30 to 35 for more space
 
         // Right side: Model preview
         this.modelX = this.width - 80;
@@ -66,7 +66,7 @@ public class BodyCustomizationScreen extends Screen {
                 bodyCustomization.isCustomBodyEnabled())
         );
 
-        startY += spacing + 10;
+        startY += spacing + 15; // Increased from 10 to 15 for more padding after checkbox
 
         // Breast size slider - REAL DRAG SLIDER!
         this.breastSlider = this.addRenderableWidget(
@@ -111,7 +111,18 @@ public class BodyCustomizationScreen extends Screen {
                 Component.literal("Done"),
                 button -> {
                     // Save the enabled state
-                    bodyCustomization.setCustomBodyEnabled(enableCustomBodyCheckbox.selected());
+                    boolean wasEnabled = bodyCustomization.isCustomBodyEnabled();
+                    boolean nowEnabled = enableCustomBodyCheckbox.selected();
+                    bodyCustomization.setCustomBodyEnabled(nowEnabled);
+
+                    // If disabling, reset to defaults
+                    if (wasEnabled && !nowEnabled) {
+                        bodyCustomization.setBreastSize(0.3f);
+                        bodyCustomization.setHipWidth(0.5f);
+                        bodyCustomization.setMaleBulge(0.0f);
+                        bodyCustomization.setBodyCurves(0.5f);
+                    }
+
                     // Go back to parent screen
                     Minecraft.getInstance().setScreen(parentScreen);
                 }
@@ -150,7 +161,7 @@ public class BodyCustomizationScreen extends Screen {
                 this.width / 2, 35, 0xAAAAAA);
 
         // Draw info text (with proper padding from checkbox)
-        int infoY = 105; // More padding from the checkbox area
+        int infoY = 85; // Positioned between checkbox and first slider
         if (!enableCustomBodyCheckbox.selected()) {
             graphics.drawString(this.font,
                     "Enable custom body to use these settings",
@@ -197,7 +208,18 @@ public class BodyCustomizationScreen extends Screen {
     @Override
     public void onClose() {
         // Save when closing
-        bodyCustomization.setCustomBodyEnabled(enableCustomBodyCheckbox.selected());
+        boolean wasEnabled = bodyCustomization.isCustomBodyEnabled();
+        boolean nowEnabled = enableCustomBodyCheckbox.selected();
+        bodyCustomization.setCustomBodyEnabled(nowEnabled);
+
+        // If disabling, reset to defaults
+        if (wasEnabled && !nowEnabled) {
+            bodyCustomization.setBreastSize(0.3f);
+            bodyCustomization.setHipWidth(0.5f);
+            bodyCustomization.setMaleBulge(0.0f);
+            bodyCustomization.setBodyCurves(0.5f);
+        }
+
         SystemDataManager.saveData();
         Minecraft.getInstance().setScreen(parentScreen);
     }
