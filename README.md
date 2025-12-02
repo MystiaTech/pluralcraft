@@ -27,7 +27,7 @@
 ### Skin Customization (NEW in v0.1.7!)
 - **Per-Alter Custom Skins!** - Each alter can have their own unique skin
 - Skin URL support (load from NameMC, Minecraft Heads, etc.)
-- File upload support (coming soon - placeholder implemented)
+- **File upload support!** - Choose .png files directly from your computer
 - Reset to default skin functionality
 - Player model preview in customization screen
 - Skins automatically apply when switching alters
@@ -41,7 +41,7 @@
 ### Keybindings
 - **P** - Open Alter Management
 - **E** - Open Emoji Picker
-- **Unbound** - Quick Switch
+- **K** - Quick Switch (cycle through alters)
 
 ## 📥 Installation
 

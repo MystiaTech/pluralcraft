@@ -9,7 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Chat formatting with system/alter names
 - PronounDB integration
 - Cosmetic Armor integration
-- Quick switch implementation
 - Client-side 3D model rendering for body customization (models morph based on settings)
 - Client-side 3D skin rendering (actual visual application of custom skins)
 - Wildfire's Gender Mod GUI integration (open their screen from our button)
@@ -45,6 +44,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Lists all system members
   - Opens with right-click instead of chat spam
 
+- **Quick Switch Keybind!** - FULLY FUNCTIONAL alter switching
+  - Press the Quick Switch key (default: K) to cycle through alters
+  - Automatically applies skin when switching
+  - Shows message with new alter name
+  - Works from anywhere in the game
+
+- **System Name Editor!** - Change your system name anytime
+  - Click "System: [name]" button in Alter Management screen
+  - Edit system name with validation
+  - Saves immediately to disk
+
 ### Changed
 - KeyInputHandler now includes skin switching logic
 - Skin settings persist across sessions via NBT
@@ -65,7 +75,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Known Issues
 - Skin visual rendering not yet implemented (textures load but don't display on player model)
-- File upload shows placeholder message
 - Similar to body customization, actual 3D rendering deferred to future version
 
 ## [0.1.6] - 2024-12-01

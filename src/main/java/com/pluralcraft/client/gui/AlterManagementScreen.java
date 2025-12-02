@@ -55,7 +55,10 @@ public class AlterManagementScreen extends Screen {
             this.addRenderableWidget(Button.builder(
                     Component.literal("Current: " + systemProfile.getCurrentAlter().getName()),
                     button -> {
-                        // TODO: Open alter details screen
+                        AlterProfile currentAlter = systemProfile.getCurrentAlter();
+                        if (currentAlter != null) {
+                            mc.setScreen(new EditAlterScreen(this, currentAlter));
+                        }
                     }
             ).bounds(centerX, startY + 30, buttonWidth, buttonHeight).build());
         }
