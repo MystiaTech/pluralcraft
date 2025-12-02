@@ -199,14 +199,26 @@ public class BodyCustomizationScreen extends Screen {
 
         // Draw integration status
         String statusMessage = "";
-        if (com.pluralcraft.compat.WildfireCompat.isWildfireLoaded()) {
+        int messageColor = 0x00FF00; // Green by default
+
+        // Check if MCA is installed (without trying to integrate)
+        boolean mcaInstalled = net.minecraftforge.fml.ModList.get().isLoaded("mca");
+
+        if (mcaInstalled) {
+            // MCA Reborn detected - show warning
+            statusMessage = "⚠ MCA Reborn detected! Body customization not compatible with MCA.";
+            messageColor = 0xFF5555; // Red
+            graphics.drawCenteredString(this.font, "Please uninstall MCA Reborn or use Wildfire's Gender Mod instead.",
+                this.width / 2, this.height - 45, 0xFFAA00); // Orange
+        } else if (com.pluralcraft.compat.WildfireCompat.isWildfireLoaded()) {
             statusMessage = "✓ Wildfire integration active - visual changes apply on alter switch!";
-        } else if (com.pluralcraft.compat.MCACompat.isMCALoaded()) {
-            statusMessage = "✓ MCA integration active - changes apply on alter switch!";
+            messageColor = 0x00FF00; // Green
         } else {
             statusMessage = "Install Wildfire's Gender Mod for visual body customization";
+            messageColor = 0xAAAA00; // Yellow
         }
-        graphics.drawCenteredString(this.font, statusMessage, this.width / 2, this.height - 60, 0x00FF00);
+
+        graphics.drawCenteredString(this.font, statusMessage, this.width / 2, this.height - 60, messageColor);
 
         super.render(graphics, mouseX, mouseY, partialTick);
     }

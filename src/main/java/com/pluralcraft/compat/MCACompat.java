@@ -18,8 +18,12 @@ public class MCACompat {
 
     /**
      * Check if MCA Reborn is loaded
-     * NOTE: MCA Reborn only customizes VILLAGERS, not the player!
-     * We return false to indicate no player integration is available
+     *
+     * NOTE: MCA Reborn is NOT compatible with PluralCraft's body customization!
+     * MCA renders breasts independently and cannot be controlled or disabled by our mod.
+     *
+     * We always return false to indicate no integration is available.
+     * Users must choose between MCA Reborn OR body customization, not both.
      */
     public static boolean isMCALoaded() {
         if (MCA_LOADED == null) {
@@ -27,59 +31,13 @@ public class MCACompat {
             boolean mcaInstalled = ModList.get().isLoaded("mca");
 
             if (mcaInstalled) {
-                System.out.println("[PluralCraft] MCA Reborn detected!");
-                System.out.println("[PluralCraft] Searching for player model/renderer classes...");
-
-                // MCA might be hijacking the player renderer!
-                // Let's try to find their renderer classes
-                String[] classesToTry = {
-                    // Player-related
-                    "net.mca.entity.PlayerData",
-                    "mca.entity.PlayerData",
-                    "net.mca.data.PlayerData",
-                    // Client rendering
-                    "net.mca.client.render.PlayerRendererMCA",
-                    "net.mca.client.render.ExtendedPlayerRenderer",
-                    "net.mca.client.model.PlayerModelMCA",
-                    "net.mca.client.model.ExtendedPlayerModel",
-                    // Layers
-                    "net.mca.client.render.layer.BreastLayer",
-                    "net.mca.client.render.layer.BodyLayer",
-                    "net.mca.client.render.layer.CustomBodyLayer",
-                    // Config
-                    "net.mca.Config",
-                    "net.mca.MCA",
-                    "net.mca.client.ClientConfig"
-                };
-
-                for (String className : classesToTry) {
-                    try {
-                        Class<?> foundClass = Class.forName(className);
-                        System.out.println("[PluralCraft] ✓ Found MCA class: " + className);
-
-                        // If we find a renderer or layer class, MCA IS rendering on players!
-                        if (className.contains("Renderer") || className.contains("Layer") || className.contains("Model")) {
-                            System.out.println("[PluralCraft] !!! MCA has a player renderer/model class!");
-                            System.out.println("[PluralCraft] This explains the double breasts - MCA is rendering on top of Wildfire!");
-                        }
-
-                        // Try to set PlayerData if it looks right
-                        if (className.contains("PlayerData") || className.contains("Player")) {
-                            PLAYER_DATA_CLASS = foundClass;
-                            System.out.println("[PluralCraft] Using " + className + " as PLAYER_DATA_CLASS");
-                        }
-                    } catch (ClassNotFoundException e) {
-                        // Class not found - that's okay
-                    }
-                }
-
-                if (PLAYER_DATA_CLASS == null) {
-                    System.out.println("[PluralCraft] MCA has no PlayerData class");
-                }
-
-                // For now, return false since we don't know how to integrate yet
-                MCA_LOADED = false;
+                System.out.println("[PluralCraft] ⚠ MCA Reborn detected!");
+                System.out.println("[PluralCraft] MCA Reborn is not compatible with body customization.");
+                System.out.println("[PluralCraft] Please uninstall MCA or use Wildfire's Gender Mod instead.");
             }
+
+            // Always return false - no integration possible
+            MCA_LOADED = false;
         }
         return MCA_LOADED;
     }
