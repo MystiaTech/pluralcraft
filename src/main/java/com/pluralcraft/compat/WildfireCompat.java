@@ -135,47 +135,37 @@ public class WildfireCompat {
             // Wildfire might use an attachment or capability system
             // Common patterns: GenderPlayer.getPlayer(player) or player.getCapability()
 
-            // Try static method approach first
+            // Use Wildfire's actual API!
+            // loadCachedPlayer(UUID) returns the GenderPlayer instance
             try {
-                Method getPlayerMethod = GENDER_PLAYER_CLASS.getMethod("getPlayer", Player.class);
-                Object genderPlayer = getPlayerMethod.invoke(null, player);
+                Method loadCachedMethod = GENDER_PLAYER_CLASS.getMethod("loadCachedPlayer", java.util.UUID.class);
+                Object genderPlayer = loadCachedMethod.invoke(null, player.getUUID());
 
                 if (genderPlayer != null) {
-                    System.out.println("[PluralCraft] Found GenderPlayer instance!");
+                    System.out.println("[PluralCraft] Found GenderPlayer instance via loadCachedPlayer!");
 
-                    // Now set the breast size field!
-                    // Wildfire uses a float for breast size (0.0 to 1.0 usually)
-                    Field breastField = GENDER_PLAYER_CLASS.getDeclaredField("breastSize");
-                    breastField.setAccessible(true);
+                    // Use updateBustSize(float) to set the breast size!
                     float newValue = body.isCustomBodyEnabled() ? body.getBreastSize() : 0.0f;
-                    breastField.setFloat(genderPlayer, newValue);
-                    System.out.println("[PluralCraft] Set breastSize to: " + newValue);
+                    Method updateBustMethod = GENDER_PLAYER_CLASS.getMethod("updateBustSize", float.class);
+                    updateBustMethod.invoke(genderPlayer, newValue);
+                    System.out.println("[PluralCraft] Called updateBustSize(" + newValue + ")");
 
-                    // Sync to client/server if needed
+                    // Save the changes using saveGenderInfo()
                     try {
-                        Method syncMethod = GENDER_PLAYER_CLASS.getMethod("syncGender");
-                        syncMethod.invoke(genderPlayer);
-                        System.out.println("[PluralCraft] Called syncGender()");
+                        Method saveMethod = GENDER_PLAYER_CLASS.getMethod("saveGenderInfo");
+                        saveMethod.invoke(genderPlayer);
+                        System.out.println("[PluralCraft] Called saveGenderInfo() - changes saved!");
                     } catch (NoSuchMethodException e) {
-                        System.out.println("[PluralCraft] syncGender() method not found, trying updatePlayer()");
-                        try {
-                            Method updateMethod = GENDER_PLAYER_CLASS.getMethod("updatePlayer");
-                            updateMethod.invoke(genderPlayer);
-                        } catch (NoSuchMethodException e2) {
-                            System.out.println("[PluralCraft] No sync method found - changes may not apply");
-                        }
+                        System.out.println("[PluralCraft] saveGenderInfo() not found - changes may not persist");
                     }
 
                     return true;
                 } else {
-                    System.err.println("[PluralCraft] GenderPlayer is null!");
+                    System.err.println("[PluralCraft] GenderPlayer is null! Player might not have gender data yet.");
                 }
             } catch (NoSuchMethodException e) {
-                System.err.println("[PluralCraft] getPlayer() method not found on GenderPlayer class");
-                System.err.println("[PluralCraft] Available methods: ");
-                for (Method m : GENDER_PLAYER_CLASS.getMethods()) {
-                    System.err.println("  - " + m.getName());
-                }
+                System.err.println("[PluralCraft] loadCachedPlayer() method not found on GenderPlayer class");
+                e.printStackTrace();
             }
         } catch (Exception e) {
             // Log error but don't crash
