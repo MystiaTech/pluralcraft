@@ -52,6 +52,9 @@ public class PluralCraft {
         // Initialize mod integrations (Wildfire's Gender Mod, etc.)
         event.enqueueWork(() -> {
             ModIntegration.initializeIntegrations();
+
+            // Register network packets
+            com.pluralcraft.network.NetworkHandler.register();
         });
     }
 

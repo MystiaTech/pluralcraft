@@ -53,6 +53,11 @@ public class KeyInputHandler {
                             // Apply skin immediately
                             SkinManager.applySkin(newAlter);
 
+                            // Sync to server so other players can see who's fronting!
+                            com.pluralcraft.network.NetworkHandler.INSTANCE.sendToServer(
+                                new com.pluralcraft.network.packets.SyncFrontingAlterPacket(
+                                    newAlter.getName(), ""));
+
                             // Apply body to Wildfire if loaded!
                             if (WildfireCompat.isWildfireLoaded()) {
                                 boolean success = WildfireCompat.applyBodyToWildfire(mc.player, newAlter.getBodyCustomization());
