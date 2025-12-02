@@ -1,13 +1,20 @@
 package com.pluralcraft.compat;
 
+import com.pluralcraft.data.BodyCustomization;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.ModList;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * Compatibility helper for Wildfire's Gender Mod
- * Detects if the mod is loaded to avoid conflicts
+ * Detects if the mod is loaded AND allows us to modify their data!
  */
 public class WildfireCompat {
     private static Boolean WILDFIRE_LOADED = null;
+    private static Class<?> GENDER_PLAYER_CLASS = null;
+    private static Method GET_GENDER_PLAYER_METHOD = null;
 
     /**
      * Check if Wildfire's Gender Mod is loaded
@@ -16,6 +23,17 @@ public class WildfireCompat {
         if (WILDFIRE_LOADED == null) {
             WILDFIRE_LOADED = ModList.get().isLoaded("wildfire_gender") ||
                              ModList.get().isLoaded("wildfire_female_gender_mod");
+
+            // Try to load their classes
+            if (WILDFIRE_LOADED) {
+                try {
+                    GENDER_PLAYER_CLASS = Class.forName("com.wildfire.main.GenderPlayer");
+                    // Try to find the method to get GenderPlayer from a Player
+                    // This might be something like GenderPlayer.getPlayer(player)
+                } catch (ClassNotFoundException e) {
+                    WILDFIRE_LOADED = false;
+                }
+            }
         }
         return WILDFIRE_LOADED;
     }
@@ -99,5 +117,44 @@ public class WildfireCompat {
      */
     public static String getWildfireGUIMessage() {
         return "Wildfire's Gender Mod detected! Check your keybinds to open their customization screen (usually 'G' key).";
+    }
+
+    /**
+     * Apply our body customization to Wildfire's mod!
+     * This MODIFIES Wildfire's data so our alter's body shows up!
+     */
+    public static boolean applyBodyToWildfire(Player player, BodyCustomization body) {
+        if (!isWildfireLoaded() || GENDER_PLAYER_CLASS == null) {
+            return false;
+        }
+
+        try {
+            // Try to get the GenderPlayer instance for this player
+            // Wildfire might use an attachment or capability system
+            // Common patterns: GenderPlayer.getPlayer(player) or player.getCapability()
+
+            // Try static method approach first
+            Method getPlayerMethod = GENDER_PLAYER_CLASS.getMethod("getPlayer", Player.class);
+            Object genderPlayer = getPlayerMethod.invoke(null, player);
+
+            if (genderPlayer != null) {
+                // Now set the breast size field!
+                // Wildfire uses a float for breast size (0.0 to 1.0 usually)
+                Field breastField = GENDER_PLAYER_CLASS.getDeclaredField("breastSize");
+                breastField.setAccessible(true);
+                breastField.setFloat(genderPlayer, body.isCustomBodyEnabled() ? body.getBreastSize() : 0.0f);
+
+                // Sync to client/server if needed
+                Method syncMethod = GENDER_PLAYER_CLASS.getMethod("syncGender");
+                syncMethod.invoke(genderPlayer);
+
+                return true;
+            }
+        } catch (Exception e) {
+            // Log error but don't crash
+            System.err.println("[PluralCraft] Failed to apply body to Wildfire: " + e.getMessage());
+        }
+
+        return false;
     }
 }

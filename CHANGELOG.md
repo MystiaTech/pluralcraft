@@ -11,8 +11,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cosmetic Armor integration
 - Client-side 3D skin rendering (actual visual application of custom skins)
 - Wildfire's Gender Mod GUI integration (open their screen from our button)
+- MCA Reborn integration (body settings sync)
 - Fabric port
 - NeoForge port
+
+## [0.2.1] - 2024-12-02
+### Added
+- **🔥 WILDFIRE INTEGRATION!** - Per-alter bodies now control Wildfire's rendering!
+  - When you switch alters, PluralCraft updates Wildfire's body settings automatically
+  - Each alter can have different body types that override Wildfire's default
+  - Uses reflection to modify Wildfire's GenderPlayer data directly
+  - Works seamlessly with Quick Switch (K key) - body changes instantly!
+
+### Changed
+- Removed placeholder PlayerBodyRenderer (we use Wildfire integration instead)
+- Body customization now modifies other mods' data rather than rendering ourselves
+- More efficient approach - uses Wildfire's already-beautiful rendering system!
+
+### Technical
+- Enhanced WildfireCompat with `applyBodyToWildfire()` method
+- Uses Java reflection to access Wildfire's GenderPlayer class
+- Automatically syncs body data when alters switch
+- Graceful fallback if Wildfire not loaded or incompatible version
+
+### Notes
+- This is the SMART approach - we let Wildfire do the rendering!
+- System can have feminine MCA character, but alter overrides to masculine via Wildfire
+- Future: Will add MCA Reborn integration using same approach
 
 ## [0.2.0] - 2024-12-02
 ### Added

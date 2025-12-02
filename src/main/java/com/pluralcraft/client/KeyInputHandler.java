@@ -4,6 +4,7 @@ import com.pluralcraft.PluralCraft;
 import com.pluralcraft.client.gui.AlterManagementScreen;
 import com.pluralcraft.client.gui.EmojiPickerScreen;
 import com.pluralcraft.client.skin.SkinManager;
+import com.pluralcraft.compat.WildfireCompat;
 import com.pluralcraft.data.AlterProfile;
 import com.pluralcraft.data.SystemDataManager;
 import com.pluralcraft.data.SystemProfile;
@@ -50,6 +51,15 @@ public class KeyInputHandler {
 
                             // Apply skin immediately
                             SkinManager.applySkin(newAlter);
+
+                            // Apply body to Wildfire if loaded!
+                            if (WildfireCompat.isWildfireLoaded()) {
+                                boolean success = WildfireCompat.applyBodyToWildfire(mc.player, newAlter.getBodyCustomization());
+                                if (success) {
+                                    mc.player.sendSystemMessage(
+                                        net.minecraft.network.chat.Component.literal("✓ Applied body settings to Wildfire!"));
+                                }
+                            }
                         }
                     } else {
                         mc.player.sendSystemMessage(
@@ -77,6 +87,11 @@ public class KeyInputHandler {
                         AlterProfile currentAlter = profile.getCurrentAlter();
                         if (currentAlter != null) {
                             SkinManager.applySkin(currentAlter);
+
+                            // Apply body to Wildfire if loaded!
+                            if (WildfireCompat.isWildfireLoaded()) {
+                                WildfireCompat.applyBodyToWildfire(mc.player, currentAlter.getBodyCustomization());
+                            }
                         }
                     }
                 }
