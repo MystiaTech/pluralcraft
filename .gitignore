@@ -3,7 +3,6 @@
 build/
 out/
 classes/
-gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/lib/
 
 # IntelliJ IDEA
