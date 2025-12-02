@@ -135,36 +135,74 @@ public class WildfireCompat {
             // Wildfire might use an attachment or capability system
             // Common patterns: GenderPlayer.getPlayer(player) or player.getCapability()
 
-            // Use Wildfire's actual API!
-            // loadCachedPlayer(UUID) returns the GenderPlayer instance
+            // Wildfire uses an attachment/capability system
+            // We need to get the GenderPlayer from the player's capability
             try {
-                Method loadCachedMethod = GENDER_PLAYER_CLASS.getMethod("loadCachedPlayer", java.util.UUID.class);
-                Object genderPlayer = loadCachedMethod.invoke(null, player.getUUID());
+                // Try to get GenderPlayer via getGender() or similar
+                // Wildfire stores data as a capability on the player entity
 
-                if (genderPlayer != null) {
-                    System.out.println("[PluralCraft] Found GenderPlayer instance via loadCachedPlayer!");
-
-                    // Use updateBustSize(float) to set the breast size!
-                    float newValue = body.isCustomBodyEnabled() ? body.getBreastSize() : 0.0f;
-                    Method updateBustMethod = GENDER_PLAYER_CLASS.getMethod("updateBustSize", float.class);
-                    updateBustMethod.invoke(genderPlayer, newValue);
-                    System.out.println("[PluralCraft] Called updateBustSize(" + newValue + ")");
-
-                    // Save the changes using saveGenderInfo()
+                // First, try getting via static method with Player parameter
+                Method getGenderMethod = null;
+                try {
+                    getGenderMethod = GENDER_PLAYER_CLASS.getMethod("getGenderPlayer", Player.class);
+                } catch (NoSuchMethodException e1) {
                     try {
-                        Method saveMethod = GENDER_PLAYER_CLASS.getMethod("saveGenderInfo");
-                        saveMethod.invoke(genderPlayer);
-                        System.out.println("[PluralCraft] Called saveGenderInfo() - changes saved!");
-                    } catch (NoSuchMethodException e) {
-                        System.out.println("[PluralCraft] saveGenderInfo() not found - changes may not persist");
-                    }
+                        getGenderMethod = GENDER_PLAYER_CLASS.getMethod("get", Player.class);
+                    } catch (NoSuchMethodException e2) {
+                        // Wildfire might use a registry or provider pattern
+                        System.err.println("[PluralCraft] Can't find method to get GenderPlayer from Player");
+                        System.err.println("[PluralCraft] Trying direct updateBustSize call...");
 
-                    return true;
-                } else {
-                    System.err.println("[PluralCraft] GenderPlayer is null! Player might not have gender data yet.");
+                        // Last resort: Try calling updateBustSize/updateGender directly with player
+                        float newValue = body.isCustomBodyEnabled() ? body.getBreastSize() : 0.0f;
+
+                        // Look for static methods that take Player
+                        for (Method m : GENDER_PLAYER_CLASS.getMethods()) {
+                            if (m.getName().equals("updateBustSize") && m.getParameterCount() == 2) {
+                                System.out.println("[PluralCraft] Found updateBustSize with 2 params, trying...");
+                                m.invoke(null, player, newValue);
+                                System.out.println("[PluralCraft] Called updateBustSize via static method!");
+                                return true;
+                            }
+                        }
+
+                        System.err.println("[PluralCraft] Could not find way to update Wildfire data");
+                        return false;
+                    }
+                }
+
+                if (getGenderMethod != null) {
+                    Object genderPlayer = getGenderMethod.invoke(null, player);
+
+                    if (genderPlayer != null) {
+                        System.out.println("[PluralCraft] Found GenderPlayer instance!");
+
+                        // Use updateBustSize(float) to set the breast size!
+                        float newValue = body.isCustomBodyEnabled() ? body.getBreastSize() : 0.0f;
+                        Method updateBustMethod = GENDER_PLAYER_CLASS.getMethod("updateBustSize", float.class);
+                        updateBustMethod.invoke(genderPlayer, newValue);
+                        System.out.println("[PluralCraft] Called updateBustSize(" + newValue + ")");
+
+                        // Save the changes
+                        try {
+                            Method saveMethod = GENDER_PLAYER_CLASS.getMethod("saveGenderInfo");
+                            saveMethod.invoke(genderPlayer);
+                            System.out.println("[PluralCraft] Called saveGenderInfo()!");
+                        } catch (NoSuchMethodException e) {
+                            System.out.println("[PluralCraft] No saveGenderInfo, trying updateGender...");
+                            try {
+                                Method updateMethod = GENDER_PLAYER_CLASS.getMethod("updateGender");
+                                updateMethod.invoke(genderPlayer);
+                            } catch (NoSuchMethodException e2) {
+                                // Changes might auto-sync
+                            }
+                        }
+
+                        return true;
+                    }
                 }
             } catch (NoSuchMethodException e) {
-                System.err.println("[PluralCraft] loadCachedPlayer() method not found on GenderPlayer class");
+                System.err.println("[PluralCraft] Method not found: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (Exception e) {
