@@ -12,7 +12,7 @@ import org.lwjgl.glfw.GLFW;
 /**
  * Client-side keybindings for PluralCraft
  */
-@Mod.EventBusSubscriber(modid = PluralCraft.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = PluralCraft.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = net.minecraftforge.api.distmarker.Dist.CLIENT)
 public class KeyBindings {
 
     // Key to open the alter management GUI
