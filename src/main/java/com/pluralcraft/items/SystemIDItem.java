@@ -37,20 +37,29 @@ public class SystemIDItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (level.isClientSide) {
-            // Open GUI on client side
-            SystemProfile profile = SystemDataManager.getProfile(player.getUUID());
-
-            if (profile != null) {
-                net.minecraft.client.Minecraft.getInstance().setScreen(
-                    new com.pluralcraft.client.gui.SystemIDCardScreen(profile)
-                );
-            } else {
-                player.sendSystemMessage(Component.literal("No system profile found!").withStyle(ChatFormatting.RED));
-                player.sendSystemMessage(Component.literal("Use /pluralcraft system setname <name> to create one!").withStyle(ChatFormatting.GRAY));
-            }
+            // Open GUI on client side - use helper method to avoid loading client classes on server
+            openIDCardScreen(player);
         }
 
         return InteractionResultHolder.success(player.getItemInHand(hand));
+    }
+
+    /**
+     * Opens the ID card screen - CLIENT ONLY!
+     * This method is in a separate method to avoid loading client classes on the server
+     */
+    @net.minecraftforge.api.distmarker.OnlyIn(net.minecraftforge.api.distmarker.Dist.CLIENT)
+    private void openIDCardScreen(Player player) {
+        SystemProfile profile = SystemDataManager.getProfile(player.getUUID());
+
+        if (profile != null) {
+            net.minecraft.client.Minecraft.getInstance().setScreen(
+                new com.pluralcraft.client.gui.SystemIDCardScreen(profile)
+            );
+        } else {
+            player.sendSystemMessage(Component.literal("No system profile found!").withStyle(ChatFormatting.RED));
+            player.sendSystemMessage(Component.literal("Use /pluralcraft system setname <name> to create one!").withStyle(ChatFormatting.GRAY));
+        }
     }
 
     private void displayAlterInfo(Player player, AlterProfile alter) {
